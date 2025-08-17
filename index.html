@@ -43,23 +43,9 @@
 
   .controls {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .count {
-    color: #B0B7BC;
-    font-size: 14px;
-  }
-
-  .controls-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
   }
 
   .search-box {
@@ -92,22 +78,24 @@
   }
 
   .export-btn {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 0.6rem 1rem;
-    border: none;
+    width: 32px;
+    height: 32px;
+    border: 2px solid #3A96F0;
     border-radius: 6px;
-    background: #3A96F0;
-    color: white;
+    background: transparent;
+    color: #3A96F0;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
     transition: all 0.2s ease;
-    white-space: nowrap;
+    position: relative;
   }
 
   .export-btn:hover {
-    background: #2980b9;
-    transform: translateY(-1px);
+    background: #3A96F0;
+    color: white;
   }
 
   .export-btn:focus {
@@ -116,9 +104,41 @@
   }
 
   .export-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.3;
     cursor: not-allowed;
-    transform: none;
+  }
+
+  .export-btn:disabled:hover {
+    background: transparent;
+    color: #3A96F0;
+  }
+
+  /* Tooltip */
+  .export-btn::after {
+    content: 'Export CSV';
+    position: absolute;
+    bottom: -35px;
+    right: 0;
+    background: #2c2c2c;
+    color: white;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 1000;
+  }
+
+  .export-btn:hover::after {
+    opacity: 1;
+  }
+
+  .count {
+    color: #B0B7BC;
+    font-size: 14px;
+    margin-bottom: 1rem;
   }
 
   .table-container {
@@ -285,14 +305,10 @@
     }
 
     .controls {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 1rem;
-    }
-
-    .controls-right {
-      margin-left: 0;
+      flex-direction: row;
       justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
     }
 
     .search-box input {
@@ -319,14 +335,13 @@
   <p class="lead">Below is every Hotel / HMO identified on the map. Click a column header to sort.</p>
 
   <div class="controls">
-    <div class="count" id="count">Loading…</div>
-    <div class="controls-right">
-      <button class="export-btn" id="exportBtn" disabled>Export CSV</button>
-      <div class="search-box">
-        <input id="searchInput" type="search" placeholder="Filter by name, area, or address" autocomplete="off" />
-      </div>
+    <div class="search-box">
+      <input id="searchInput" type="search" placeholder="Filter by name, area, or address" autocomplete="off" />
     </div>
+    <button class="export-btn" id="exportBtn" disabled title="Export CSV">↓</button>
   </div>
+
+  <div class="count" id="count">Loading…</div>
 
   <div class="table-container">
     <div class="table-scroll">
