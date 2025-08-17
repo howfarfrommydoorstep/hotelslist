@@ -292,8 +292,7 @@
     setLoading(true);
     try{
       const r = await fetch(
-  'https://raw.githubusercontent.com/howfarfrommydoorstep/clive/main/hotels_geocoded.json',
-  { credentials:'include' }
+  'https://raw.githubusercontent.com/howfarfrommydoorstep/clive/main/hotels_geocoded.json'
 );
       if(!r.ok) throw new Error(`HTTP ${r.status}`);
       const raw = await r.json();
