@@ -88,14 +88,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
     transition: all 0.2s ease;
     position: relative;
   }
 
   .export-btn:hover {
     background: #3A96F0;
-    color: white;
+  }
+
+  .export-btn:hover .download-icon::before,
+  .export-btn:hover .download-icon::after {
+    border-color: white;
+    background: white;
   }
 
   .export-btn:focus {
@@ -110,7 +114,44 @@
 
   .export-btn:disabled:hover {
     background: transparent;
-    color: #3A96F0;
+  }
+
+  .export-btn:disabled:hover .download-icon::before,
+  .export-btn:disabled:hover .download-icon::after {
+    border-color: #3A96F0;
+    background: #3A96F0;
+  }
+
+  .download-icon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+  }
+
+  .download-icon::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid #3A96F0;
+    transition: border-color 0.2s ease;
+  }
+
+  .download-icon::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    height: 2px;
+    background: #3A96F0;
+    border-radius: 1px;
+    transition: background 0.2s ease;
   }
 
   /* Tooltip */
@@ -338,7 +379,9 @@
     <div class="search-box">
       <input id="searchInput" type="search" placeholder="Filter by name, area, or address" autocomplete="off" />
     </div>
-    <button class="export-btn" id="exportBtn" disabled title="Export CSV">↓</button>
+    <button class="export-btn" id="exportBtn" disabled title="Export CSV">
+      <div class="download-icon"></div>
+    </button>
   </div>
 
   <div class="count" id="count">Loading…</div>
