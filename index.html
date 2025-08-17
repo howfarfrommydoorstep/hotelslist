@@ -291,7 +291,10 @@
   async function load(){
     setLoading(true);
     try{
-      const r = await fetch('./hotels_geocoded.json', { credentials:'same-origin' });
+      const r = await fetch(
+  'https://raw.githubusercontent.com/howfarfrommydoorstep/clive/main/hotels_geocoded.json',
+  { credentials:'include' }
+);
       if(!r.ok) throw new Error(`HTTP ${r.status}`);
       const raw = await r.json();
       const mapped = Array.isArray(raw) ? raw.map(sanitize) : [];
