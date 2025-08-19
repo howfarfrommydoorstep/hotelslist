@@ -48,6 +48,29 @@
     margin-bottom: 0.5rem;
   }
 
+  .back-link {
+    color: #3A96F0;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .back-link:hover {
+    color: #5da8f2;
+    text-decoration: underline;
+  }
+
+  .back-link:focus {
+    outline: 2px solid #3A96F0;
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
   .search-box {
     display: flex;
     align-items: center;
@@ -323,6 +346,15 @@
     color: white;
   }
 
+  .footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(58, 150, 240, 0.15);
+    color: #545D63;
+    font-size: 13px;
+  }
+
   .sr-only {
     position: absolute !important;
     width: 1px;
@@ -341,15 +373,25 @@
     }
 
     .controls {
-      flex-direction: row;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    .controls-row {
+      display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
     }
 
-    .search-box input {
-      min-width: 200px;
+    .search-box {
       flex: 1;
+    }
+
+    .search-box input {
+      min-width: 150px;
+      width: 100%;
     }
 
     table {
@@ -371,9 +413,14 @@
   <p class="lead">Below is every Hotel / HMO identified on the map. Click a column header to sort.</p>
 
   <div class="controls">
+    <a href="https://migranthotels.net" class="back-link">
+      ← Back to Map
+    </a>
+    
     <div class="search-box">
       <input id="searchInput" type="search" placeholder="Filter by name or address" autocomplete="off" />
     </div>
+    
     <button class="export-btn" id="exportBtn" disabled title="Export CSV">
       <div class="download-icon"></div>
     </button>
@@ -409,6 +456,10 @@
         </tbody>
       </table>
     </div>
+  </div>
+
+  <div class="footer">
+    © 2025 MigrantHotels.net - All rights reserved
   </div>
 </div>
 
