@@ -199,7 +199,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
-    min-width: 700px;
+    min-width: 500px;
   }
 
   thead th {
@@ -277,19 +277,14 @@
     background: rgba(58, 150, 240, 0.08);
   }
 
-  /* Column sizing */
+  /* Column sizing - redistributed for 2 columns */
   th[data-col="Name"], td[data-col="Name"] {
-    width: 25%;
+    width: 35%;
     font-weight: 500;
   }
 
-  th[data-col="Area"], td[data-col="Area"] {
-    width: 20%;
-    white-space: nowrap;
-  }
-
   th[data-col="Address"], td[data-col="Address"] {
-    width: 55%;
+    width: 65%;
   }
 
   .loading-cell, .error-cell, .empty-cell {
@@ -358,7 +353,7 @@
     }
 
     table {
-      min-width: 600px;
+      min-width: 400px;
     }
   }
 
@@ -377,7 +372,7 @@
 
   <div class="controls">
     <div class="search-box">
-      <input id="searchInput" type="search" placeholder="Filter by name, area, or address" autocomplete="off" />
+      <input id="searchInput" type="search" placeholder="Filter by name or address" autocomplete="off" />
     </div>
     <button class="export-btn" id="exportBtn" disabled title="Export CSV">
       <div class="download-icon"></div>
@@ -398,13 +393,6 @@
                 <span class="sr-only" data-sortstate>not sorted</span>
               </button>
             </th>
-            <th data-col="Area" data-active="false" data-dir="desc">
-              <button type="button">
-                Area
-                <span class="arrow"></span>
-                <span class="sr-only" data-sortstate>not sorted</span>
-              </button>
-            </th>
             <th data-col="Address" data-active="true" data-dir="asc">
               <button type="button">
                 Full Address
@@ -416,7 +404,7 @@
         </thead>
         <tbody>
           <tr>
-            <td colspan="3" class="loading-cell skeleton">Loading hotel data...</td>
+            <td colspan="2" class="loading-cell skeleton">Loading hotel data...</td>
           </tr>
         </tbody>
       </table>
@@ -444,10 +432,9 @@
     searchTerm: ''
   };
 
-  // Column configuration
+  // Column configuration - removed Area
   const columns = {
     Name: { accessor: h => h.Name || '', label: 'Hotel' },
-    Area: { accessor: h => (h.Area || '').trim(), label: 'Area' },
     Address: { accessor: h => h.Address || '', label: 'Full Address' }
   };
 
@@ -486,20 +473,19 @@
   function sanitizeHotel(hotel) {
     return {
       Name: typeof hotel.Name === 'string' ? hotel.Name.trim() : '',
-      Area: typeof hotel.Area === 'string' ? hotel.Area.trim() : '',
       Address: typeof hotel.Address === 'string' ? hotel.Address.trim() : ''
     };
   }
 
   function showLoading() {
-    tbody.innerHTML = '<tr><td colspan="3" class="loading-cell skeleton">Loading hotel data...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="2" class="loading-cell skeleton">Loading hotel data...</td></tr>';
     countEl.textContent = 'Loading…';
   }
 
   function showError() {
     tbody.innerHTML = `
       <tr>
-        <td colspan="3" class="error-cell">
+        <td colspan="2" class="error-cell">
           Failed to load hotel data.
           <button class="retry-btn" onclick="location.reload()">Retry</button>
         </td>
@@ -510,12 +496,11 @@
   }
 
   function applyFiltersAndSort() {
-    // Apply search filter
+    // Apply search filter - removed Area from search
     const searchTerm = state.searchTerm.toLowerCase();
     state.filteredHotels = searchTerm 
       ? state.allHotels.filter(hotel => 
           hotel.Name.toLowerCase().includes(searchTerm) ||
-          hotel.Area.toLowerCase().includes(searchTerm) ||
           hotel.Address.toLowerCase().includes(searchTerm)
         )
       : [...state.allHotels];
@@ -545,7 +530,7 @@
     if (state.filteredHotels.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="3" class="empty-cell">
+          <td colspan="2" class="empty-cell">
             ${state.searchTerm ? 'No hotels match your search.' : 'No hotel data available.'}
           </td>
         </tr>
@@ -556,7 +541,6 @@
     const rows = state.filteredHotels.map(hotel => `
       <tr>
         <td data-col="Name">${hotel.Name || '—'}</td>
-        <td data-col="Area">${hotel.Area || '—'}</td>
         <td data-col="Address" title="${hotel.Address || ''}">${hotel.Address || '—'}</td>
       </tr>
     `).join('');
@@ -627,13 +611,12 @@
   function exportToCSV() {
     if (state.filteredHotels.length === 0) return;
 
-    // Create CSV content
-    const headers = ['Hotel', 'Area', 'Full Address'];
+    // Create CSV content - removed Area
+    const headers = ['Hotel', 'Full Address'];
     const csvContent = [
       headers.join(','),
       ...state.filteredHotels.map(hotel => [
         `"${(hotel.Name || '').replace(/"/g, '""')}"`,
-        `"${(hotel.Area || '').replace(/"/g, '""')}"`,
         `"${(hotel.Address || '').replace(/"/g, '""')}"`,
       ].join(','))
     ].join('\n');
